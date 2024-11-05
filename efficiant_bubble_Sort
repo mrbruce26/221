@@ -1,0 +1,19 @@
+inp = open("input1b.txt","r")
+out = open("output1b.txt","w")
+inp.readline()
+arr = inp.read().split(" ")
+grr=[]
+for i in range(len(arr)):
+    grr.append(int(arr[i]))
+def bubbleSort(arr):
+    for i in range(len(arr)-1):
+        flag =True
+        for j in range(len(arr)-i-1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                flag= False
+        if flag == True:
+            break
+    return arr
+for i in bubbleSort(grr):
+    out.write(str(i)+" ")
