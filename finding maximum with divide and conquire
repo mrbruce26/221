@@ -1,0 +1,22 @@
+inp = open("inputmax.txt","r")
+out= open("outputmax.txt","w")
+inp.readline()
+x = inp.readline().split(" ")
+l1 = [int(x) for x in x]
+def maxi(a,b):
+    m=0
+    if a[0]>b[0]:
+        m= a
+    else:
+        m= b
+    return m
+def divide_and_conquire(arr):
+    if len(arr) <= 1:
+        return arr
+    else:
+        mid = len(arr)//2
+        a1 = divide_and_conquire(arr[:mid]) # write the parameter
+        a2 = divide_and_conquire(arr[mid::]) # write the parameter
+        return maxi(a1, a2) # complete the merge function above
+m1 = divide_and_conquire(l1)
+out.write(f'{m1[0]}')
