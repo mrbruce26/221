@@ -1,0 +1,35 @@
+import math
+inp = open("inputmax.txt", "r")
+out = open("outputmax.txt", "w")
+
+inp.readline()  # assuming the first line is not needed
+x = inp.readline().split(" ")
+l1 = [int(num) for num in x]
+
+def maxi(list1, list2):
+    maximum= -(math.inf)
+    i, j = 0, 0
+    maxl1= max(list1)
+    maxl2= -(math.inf)
+    for j in list2:
+        if j<0:
+            j=j*-1
+        if j> maxl2:
+            maxl2 =j
+    return list1+list2, maxl1+ maxl2**2
+def divide_and_conquer(arr):
+    maxim=-(math.inf)
+    if len(arr) <= 1:
+        return arr,0
+    else:
+        mid = len(arr) // 2
+        a1,m= divide_and_conquer(arr[:mid])
+        a2,m= divide_and_conquer(arr[mid:])
+        merged, m = maxi(a1, a2)
+        if m> maxim:
+            maxim = m
+
+        return merged,m
+
+m1 = divide_and_conquer(l1)
+out.write(f'{m1[1]}')
