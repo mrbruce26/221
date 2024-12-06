@@ -1,0 +1,49 @@
+inp = open("inputmax.txt", "r")
+out = open("outputmax.txt", "w")
+
+inp.readline()  # assuming the first line is not needed
+x = inp.readline().split(" ")
+l1 = [int(num) for num in x]
+
+
+def maxi(list1, list2):
+    merged_list = []
+    i, j = 0, 0
+    sum = 0
+    while i < len(list1) and j < len(list2):
+        if list1[i] < list2[j]:
+            merged_list.append(list1[i])
+            i += 1
+        else:
+            merged_list.append(list2[j])
+            sum += len(list1) - i  # assuming 'a' is 'list1' and 'l' is 'i'
+            j += 1
+
+    while i < len(list1):
+        merged_list.append(list1[i])
+        i += 1
+
+    while j < len(list2):
+        merged_list.append(list2[j])
+        j += 1
+
+    return merged_list, sum
+
+
+def divide_and_conquer(arr):
+    if len(arr) <= 1:
+        return arr, 0  # base case should return a tuple
+    else:
+        mid = len(arr) // 2
+        a1, sum1 = divide_and_conquer(arr[:mid])  # capture sum from left half
+        a2, sum2 = divide_and_conquer(arr[mid:])  # capture sum from right half
+        merged, sum_merge = maxi(a1, a2)  # capture results from merge
+        total_sum = sum1 + sum2 + sum_merge  # add all sums together
+        return merged, total_sum  # return total merged list and sum
+
+
+m1 = divide_and_conquer(l1)
+out.write(f'{m1[1]}')  # write the sum to the output file
+
+inp.close()
+out.close()
