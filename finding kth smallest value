@@ -1,0 +1,42 @@
+import math
+inp = open("inputmax.txt", "r")
+out = open("outputmax.txt", "w")
+
+inp.readline()
+x = inp.readline().split(" ")
+l1 = [int(num) for num in x]
+y = int(inp.readline())
+arr=[]
+for i in range(y):
+    arr.append(int(inp.readline()))
+import random
+
+def partition(arr, low, high):
+    pivot_index = random.randint(low, high)
+    arr[pivot_index], arr[high] = arr[high], arr[pivot_index]
+    pivot = arr[high]
+    i = low - 1
+    for j in range(low, high):
+        if arr[j] <= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+    return i + 1
+
+def randomized_quick_sort(arr,i, low, high):
+    if low < high:
+          pi = partition(arr, low, high)
+          if pi == i-1:
+            return arr[pi]
+          elif pi>i-1:
+            return randomized_quick_sort(arr,i ,low, pi - 1)
+          else:
+            return randomized_quick_sort(arr,i, pi + 1, high)
+
+# Example usage:
+arr2 = [5,3,2,7]
+print("Original array:", l1)
+for i in range(len(arr)):
+    r1 = randomized_quick_sort(l1, arr[i], 0, len(l1) - 1)
+    out.write(f'{r1}\n')
+
