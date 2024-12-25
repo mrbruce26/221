@@ -1,0 +1,59 @@
+import queue
+inp = open("inputmax.txt", "r")
+out = open("outputmax.txt", "w")
+x = inp.readline()
+r = []
+
+for i in range(int(x)):
+    edge = inp.readline().strip().split(" ")
+    r.append(list(map(int,edge)))
+dict={}
+for i in r:
+    dict[i[0]]=[]
+    dict[i[1]]=[]
+for i in r:
+    dict[i[0]].append(i[1])
+    dict[i[1]].append(i[0])
+
+color = {}
+for i in dict.keys():
+    color[i] = "w"
+    for v in dict[i]:
+        color[v] = "w"
+parent = {}
+for i in dict.keys():
+    s = dict[i]
+    for x in s:
+        parent[x]=i
+print(parent)
+q = queue.Queue()
+q.put(1)
+color[1]="g"
+def bfs(dict,color,parent):
+    arr= []
+    b = 0
+    r = 0
+    while q.empty() == False:
+        c = q.get()
+        g = dict[c]
+        for i in g:
+            if color[i]=="w":
+                color[i]="g"
+                q.put(i)
+                if color[c]=="b":
+                    color[i]="r"
+                    r+=1
+                elif color[c]=="r":
+                    color[i]="b"
+                    b+=1
+                else:
+                    color[c]="b"
+                    color[i]="r"
+                    r+=1
+                    b+=1
+
+    return max(r,b)
+ans = bfs(dict,color,parent)
+print(dict)
+print(color)
+out.write(f"{ans}")
